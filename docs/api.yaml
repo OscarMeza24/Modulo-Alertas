@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: SafeAlert Platform API
+  description: API para gestión de alertas inteligentes
+  version: 1.0.0
+  contact:
+    email: support@safealert.com
+
+servers:
+  - url: http://localhost:8000
+    description: Servidor local
+
+paths:
+  /alertas:
+    get:
+      summary: Obtener todas las alertas activas
+      tags: [Alertas]
+      responses:
+        '200':
+          description: Lista de alertas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alerta'
+        '400':
+          description: Error en la solicitud
+    post:
+      summary: Crear una nueva alerta
+      tags: [Alertas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertaInput'
+      responses:
+        '201':
+          description: Alerta creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alerta'
+        '400':
+          description: Error en la solicitud
+
+  /alertas/{id}:
+    put:
+      summary: Actualizar una alerta
+      tags: [Alertas]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertaUpdate'
+      responses:
+        '200':
+          description: Alerta actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alerta'
+        '404':
+          description: Alerta no encontrada
+
+  /alertas/historial:
+    get:
+      summary: Obtener historial de alertas
+      tags: [Historial]
+      responses:
+        '200':
+          description: Historial de alertas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistorialAlerta'
+
+components:
+  schemas:
+    Alerta:
+      type: object
+      properties:
+        id:
+          type: integer
+        descripcion:
+          type: string
+        estado:
+          type: string
+          enum: [activa, pendiente, resuelta, cancelada]
+        idusuario:
+          type: integer
+        idniveprioridad:
+          type: integer
+        fechacreacion:
+          type: string
+          format: date-time
+
+    AlertaInput:
+      type: object
+      required:
+        - descripcion
+        - estado
+        - idusuario
+        - idniveprioridad
+      properties:
+        descripcion:
+          type: string
+        estado:
+          type: string
+          enum: [activa, pendiente]
+        idusuario:
+          type: integer
+        idniveprioridad:
+          type: integer
+
+    AlertaUpdate:
+      type: object
+      properties:
+        estado:
+          type: string
+          enum: [activa, pendiente, resuelta, cancelada]
+        comentario:
+          type: string
+
+    HistorialAlerta:
+      type: object
+      properties:
+        id:
+          type: integer
+        idalerta:
+          type: integer
+        estado_anterior:
+          type: string
+        estado_actual:
+          type: string
+        fechacambio:
+          type: string
+          format: date-time
+        usuario:
+          type: string

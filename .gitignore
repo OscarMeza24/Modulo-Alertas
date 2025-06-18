@@ -1,0 +1,14 @@
+vendor/
+.env
+*.log
+node_modules/
+.DS_Store
+.idea/
+*.swp
+*.swo
+*.swn
+.cache/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
