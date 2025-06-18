@@ -12,7 +12,10 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 // Constante para el tipo de contenido JSON
 const CONTENT_TYPE_JSON = 'Content-Type: application/json';
 
-//Mensaje De medulo no encontrado
+//Mensaje de modetodo no entrado
+$noPermitido = 'Metodo no permitido';
+
+// Declaracion de variableP input
 $inputPhp = 'php://input'; 
 
 // Manejar preflight requests
@@ -39,40 +42,40 @@ switch ($path) {
         break;
     
     case '/api/alertas':
-        handleAlertasAPI($inputPhp);
+        handleAlertasAPI($inputPhp, $noPermitido);
         break;
     
     case '/api/alertas/generar':
-        handleGenerarAlertas($inputPhp);
+        handleGenerarAlertas($inputPhp, $noPermitido);
         break;
     
     case '/api/alertas/historial':
-        handleHistorialAlertas($inputPhp);
+        handleHistorialAlertas($inputPhp, $noPermitido);
         break;
     
     case '/api/alertas/notificaciones':
-        handleNotificaciones($inputPhp);
+        handleNotificaciones($inputPhp, $noPermitido);
         break;
     
     case '/api/reportes':
-        handleReportesAPI($inputPhp);
+        handleReportesAPI($inputPhp, $noPermitido);
         break;
     
     case '/api/reportes/generar':
-        handleGenerarReporte($inputPhp);
+        handleGenerarReporte($inputPhp, $noPermitido);
         break;
     
     case '/api/productos':
-        handleProductosAPI();
+        handleProductosAPI($inputPhp, $noPermitido);
         break;
     
     default:
         http_response_code(404);
-        echo json_encode(['error' => 'Endpoint no encontrado']);
+        echo json_encode(['error' => $noEncontrado]);
         break;
 }
 
-function handleAlertasAPI($inputPhp) {
+function handleAlertasAPI($inputPhp, $noPermitido) {
     $alertaService = new AlertaService();
     
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -109,15 +112,15 @@ function handleAlertasAPI($inputPhp) {
         
         default:
             http_response_code(405);
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => $noPermitido]);
             break;
     }
 }
 
-function handleGenerarAlertas() {
+function handleGenerarAlertas($inputPhp, $noPermitido) {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
-        echo json_encode(['error' => 'Método no permitido']);
+        echo json_encode(['error' => $noPermitido]);
         return;
     }
     
@@ -131,10 +134,10 @@ function handleGenerarAlertas() {
     ]);
 }
 
-function handleHistorialAlertas() {
+function handleHistorialAlertas($noPermitido) {
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
         http_response_code(405);
-        echo json_encode(['error' => 'Método no permitido']);
+        echo json_encode(['error' => $noPermitido]);
         return;
     }
 
@@ -145,10 +148,10 @@ function handleHistorialAlertas() {
     echo json_encode(['historial' => $historial]);
 }
 
-function handleNotificaciones() {
+function handleNotificaciones($noPermitido) {
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
         http_response_code(405);
-        echo json_encode(['error' => 'Método no permitido']);
+        echo json_encode(['error' => $noPermitido]);
         return;
     }
 
@@ -159,10 +162,10 @@ function handleNotificaciones() {
     echo json_encode(['notificaciones' => $notificaciones]);
 }
 
-function handleReportesAPI() {
+function handleReportesAPI($noPermitido) {
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
         http_response_code(405);
-        echo json_encode(['error' => 'Método no permitido']);
+        echo json_encode(['error' => $noPermitido]);
         return;
     }
 
@@ -173,7 +176,7 @@ function handleReportesAPI() {
     echo json_encode(['reportes' => $reportes]);
 }
 
-function handleProductosAPI() {
+function handleProductosAPI($noPermitido) {
     $db = Database::getInstance();
     
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -185,15 +188,15 @@ function handleProductosAPI() {
             
         default:
             http_response_code(405);
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => $noPermitido]);
             break;
     }
 }
 
-function handleGenerarReporte($inputPhp) {
+function handleGenerarReporte($inputPhp, $noPermitido) {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
-        echo json_encode(['error' => 'Método no permitido']);
+        echo json_encode(['error' => $noPermitido]);
         return;
     }
     
