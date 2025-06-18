@@ -12,6 +12,9 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 // Constante para el tipo de contenido JSON
 const CONTENT_TYPE_JSON = 'Content-Type: application/json';
 
+//Mensaje De medulo no encontrado
+$inputPhp = 'php://input'; 
+
 // Manejar preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -36,27 +39,27 @@ switch ($path) {
         break;
     
     case '/api/alertas':
-        handleAlertasAPI();
+        handleAlertasAPI($inputPhp);
         break;
     
     case '/api/alertas/generar':
-        handleGenerarAlertas();
+        handleGenerarAlertas($inputPhp);
         break;
     
     case '/api/alertas/historial':
-        handleHistorialAlertas();
+        handleHistorialAlertas($inputPhp);
         break;
     
     case '/api/alertas/notificaciones':
-        handleNotificaciones();
+        handleNotificaciones($inputPhp);
         break;
     
     case '/api/reportes':
-        handleReportesAPI();
+        handleReportesAPI($inputPhp);
         break;
     
     case '/api/reportes/generar':
-        handleGenerarReporte();
+        handleGenerarReporte($inputPhp);
         break;
     
     case '/api/productos':
@@ -69,7 +72,7 @@ switch ($path) {
         break;
 }
 
-function handleAlertasAPI() {
+function handleAlertasAPI($inputPhp) {
     $alertaService = new AlertaService();
     
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -80,7 +83,7 @@ function handleAlertasAPI() {
             break;
         
         case 'POST':
-            $input = json_decode(file_get_contents('php://input'), true);
+            $input = json_decode(file_get_contents($inputPhp), true);
             try {
                 $alerta = $alertaService->crearAlerta($input);
                 header(CONTENT_TYPE_JSON);
@@ -93,7 +96,7 @@ function handleAlertasAPI() {
             break;
             
         case 'PATCH':
-            $input = json_decode(file_get_contents('php://input'), true);
+            $input = json_decode(file_get_contents($inputPhp), true);
             $resultado = $alertaService->actualizarAlerta(
                 $input['alerta_id'],
                 $input['estado'],
@@ -187,14 +190,14 @@ function handleProductosAPI() {
     }
 }
 
-function handleGenerarReporte() {
+function handleGenerarReporte($inputPhp) {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         echo json_encode(['error' => 'Método no permitido']);
         return;
     }
     
-    $input = json_decode(file_get_contents('php://input'), true);
+    $input = json_decode(file_get_contents($inputPhp), true);
     $reporteService = new ReporteService();
     
     $reporte = $reporteService->generarReporte(
