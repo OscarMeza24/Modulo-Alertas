@@ -1,6 +1,8 @@
 <?php
 namespace SafeAlert\Config;
 
+use UnexpectedValueException;
+
 class Environment {
     private static $instance = null;
     private $config = [];
@@ -19,7 +21,7 @@ class Environment {
     private function loadEnvironment() {
         $envFile = __DIR__ . '/../../.env';
         if (!file_exists($envFile)) {
-            throw new \Exception('Archivo .env no encontrado');
+            throw new UnexpectedValueException('Archivo .env no encontrado');
         }
 
         $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -41,6 +43,10 @@ class Environment {
         return $this->config[$key] ?? $default;
     }
 
-    private function __clone() {}
-    public function __wakeup() {}
+    private function __clone() {
+        throw new UnexpectedValueException("Clonación no permitida");
+    }
+    public function __wakeup() {
+        throw new UnexpectedValueException("Deserialización no permitida");
+    }
 }
