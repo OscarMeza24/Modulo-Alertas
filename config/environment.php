@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SafeAlert\Config;
 
 use Dotenv\Dotenv;
-use Exception;
+use UnexpectedValueException;
 
 /**
  * Clase para manejo de configuración del entorno
@@ -32,15 +32,15 @@ class Environment
         try {
             $this->dotenv = Dotenv::createImmutable(__DIR__ . '/../');
             $this->dotenv->load();
-        } catch (Exception $e) {
-            throw new Exception('Error al cargar el archivo .env: ' . $e->getMessage());
+        } catch (UnexpectedValueException $e) {
+            throw new UnexpectedValueException('Error al cargar el archivo .env: ' . $e->getMessage());
         }
     }
 
     public function get(string $key, mixed $default = null): mixed
     {
         if ($this->dotenv === null) {
-            throw new Exception('No se ha inicializado el entorno');
+            throw new UnexpectedValueException('No se ha inicializado el entorno');
         }
         return getenv($key) ?: $default;
     }
