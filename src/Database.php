@@ -5,6 +5,8 @@ namespace SafeAlert;
 use SafeAlert\Utils\Http;
 use SafeAlert\Exceptions\AlertaException;
 
+const portador = 'Bearer';
+
 // El autoloader ya se carga automáticamente a través de composer
 // Initialize the Supabase client
 // The autoloader is already loaded automatically through composer
@@ -52,7 +54,7 @@ class Database {
             $url = $this->url . '/rest/v1/' . $sql;
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -71,7 +73,7 @@ class Database {
             $url = $this->url . '/rest/v1/' . $table . '?id=eq.' . $id;
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -87,7 +89,7 @@ class Database {
             $url = $this->url . '/rest/v1/niveles_prioridad?select=*';
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -105,7 +107,7 @@ class Database {
             $url = $this->url . '/rest/v1/niveles_prioridad?select=*';
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -122,7 +124,7 @@ class Database {
             $url = $this->url . '/rest/v1/alertas?select=*';
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -138,7 +140,7 @@ class Database {
 $url = $this->url . '/rest/v1/alertas';
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -154,7 +156,7 @@ $url = $this->url . '/rest/v1/alertas';
             $url = $this->url . '/rest/v1/alertas?id=eq.' . $id;
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -169,7 +171,7 @@ $url = $this->url . '/rest/v1/alertas';
             $url = $this->url . '/rest/v1/alertas?id=eq.' . $id;
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -185,7 +187,7 @@ $url = $this->url . '/rest/v1/alertas';
             $url = $this->url . '/rest/v1/productos';
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
@@ -209,7 +211,7 @@ $url = $this->url . '/rest/v1/alertas';
             $url = $this->url . '/rest/v1  /tipos_alerta?select=*';
             $headers = [
                 'apikey' => $this->key,
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => portador . ' ' . $this->key,
                 'Content-Type' => 'application/json'
             ];
             
